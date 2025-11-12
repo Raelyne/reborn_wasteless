@@ -1,0 +1,90 @@
+<resources>
+    <!--
+    🌱 Emojis are added to make finding references easier. Subsections are for specific strings to that point, and strings set
+    directly above do not have a specific correlation, or belong to many sections as a whole.
+
+    As for naming conventions, prefixing should be followed by a shortened version of what the msg is
+    (i.e. "btn_waste_food")
+
+    prefixes:
+    app -> referring to the entire app itself (no need to use)
+    fragment -> referring anything to do with fragments (unlikely used)
+    msg -> any message/related text
+    msg_..._sub -> any subtitle of a main msg/title
+    btn -> any string related to a button/image buttons
+    item -> any string related to a RecyclerView followed by their naming set (i.e. if recyclerview has 2 instance, name first set at the back with _1 and the 2nd set _2)
+    img -> any string related to images (non-clickable.. usually wont be used since decorative images will have @null as ctDesc)
+    edt -> any hints/string related to edittext fields
+    test -> any strings used for easier testing (i.e. instant email/password input)
+
+
+    Rename/refactor using Shift+F6 if named wrongly
+    -->
+    <string name="app_name">Wasteless</string>
+    <string name="fragment_title">Fragment Title</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- RecyclerView Content -->
+    <string name="img_food_waste">Food waste</string>
+    <string name="item_diary_waste_type_1">Food related</string>
+    <string name="item_diary_date_1">recorded on 11/09/2025</string>
+    <string name="item_diary_title_1">Rice Leftovers</string>
+    <string name="item_diary_weight_1">350g</string>
+
+    <!-- 🛑 Login/Sign-up Fragment -->
+    <string name="edt_email">Email</string>
+    <string name="edt_password">Password</string>
+    <!-- buttons -->
+    <string name="btn_login">Login</string>
+    <string name="btn_sign_up">Sign Up</string>
+    <string name="btn_login_here">Have an account? Login here</string>
+    <string name="btn_sign_up_here">Sign up for an account!</string>
+    <string name="btn_forgot_password">Forgot password</string>
+    <!-- Login/Sign-up: test credentials-->
+    <string name="test_email">testuser@uni.edu</string>
+    <string name="test_password">123456</string>
+
+    <!-- 🏠 Home Fragment -->
+    <string name="msg_greeting_sub">Ready for the big reveal?</string>
+    <string name="msg_today_diary">Today\'s Diary</string>
+    <string name="msg_today_diary_sub">How is your Wasteless journey going?</string>
+    <string name="msg_top_weekly_waste">Top weekly waste</string>
+    <string name="msg_not_found">No available logs found</string>
+    <string name="msg_your_analytics">Your analytics</string>
+    <string name="msg_your_analytics_sub">Are you the last in food wasting yet?</string>
+    <!-- buttons -->
+    <string name="btn_visit_tamagotchi">Visit Tamagotchi</string>
+    <string name="btn_log_your_waste">Log your waste</string>
+    <string name="btn_go_to_diary">Go To Diary</string>
+
+    <!-- 📸 Logging Fragment -->
+    <string name="btn_take_photo">Take photo</string>
+    <string name="msg_date">Date</string>
+    <string name="msg_title">Title</string>
+    <string name="msg_waste_type">Waste Type</string>
+    <string name="msg_calculation">Calculation</string>
+    <string name="msg_remarks">Remarks</string>
+    <!-- buttons -->
+    <string name="btn_unavoidable">Unavoidable</string>
+    <string name="btn_avoidable">Avoidable</string>
+    <string name="btn_food_related">Food Related</string>
+    <string name="btn_grams">Grams</string>
+    <string name="btn_portions">Portions</string>
+    <string name="btn_enter_here">Enter here</string>
+    <string name="btn_select_date">Select date</string>
+    <string name="btn_save">Save</string>
+    <!-- Logging: toolbar -->
+    <string name="msg_overlay_title">Overlay Title</string>
+    <string name="btn_confirm">Confirm</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_done">Done!</string>
+    <string name="item_waste_1">Fruit Seeds</string>
+    <string name="btn_qty">Qty</string>
+
+    <!-- 👤 Account Fragment -->
+    <string name="btn_log_out">Log out</string>
+
+    <!-- New additions/not sorted yet -->
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Shifts the view to the RIGHT of the screen (off-screen), then slides it back left -->
+<translate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="400"
+    android:fromXDelta="100%"
+    android:toXDelta="0%" />
