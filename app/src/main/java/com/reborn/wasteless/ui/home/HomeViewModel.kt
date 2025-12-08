@@ -36,19 +36,9 @@ class HomeViewModel(
             user.username
         } else {
             // Fallback: extract from email if username is empty
-            extractUsernameFromEmail(user.email)
+            userRepository.extractUsernameFromEmail(user.email)
         }
         "Hello, $displayName!"
     }
 
-    /**
-     * Helper to extract username from email as fallback.
-     */
-    private fun extractUsernameFromEmail(email: String): String {
-        return if (email.isNotEmpty() && email.contains("@")) {
-            email.substringBefore("@")
-        } else {
-            "user"
-        }
-    }
 }
