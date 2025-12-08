@@ -21,5 +21,5 @@ data class FoodLogEntity(
 data class LoggedWasteItem(
     val wasteItemId: String,
     val quantity: Double,
-    val weight: Double
+    val weight: Double,
 )

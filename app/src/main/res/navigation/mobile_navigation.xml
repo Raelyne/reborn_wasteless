@@ -133,6 +133,13 @@
         android:id="@+id/navigation_logging"
         android:name="com.reborn.wasteless.ui.logging.LoggingFragment"
         android:label="@string/title_logging"
-        tools:layout="@layout/fragment_logging" />
+        tools:layout="@layout/fragment_logging">
+        <action
+            android:id="@+id/action_logging_to_diary"
+            app:destination="@id/navigation_diary"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
+    </fragment>
+
 
 </navigation>

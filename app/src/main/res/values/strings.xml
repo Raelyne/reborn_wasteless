@@ -78,6 +78,7 @@
     <string name="msg_waste_type">Waste Type</string>
     <string name="msg_calculation">Calculation</string>
     <string name="msg_remarks">Remarks</string>
+    <string name="weight_format">Weight: %.1f g</string>
     <!-- buttons -->
     <string name="btn_unavoidable">Unavoidable</string>
     <string name="btn_avoidable">Avoidable</string>

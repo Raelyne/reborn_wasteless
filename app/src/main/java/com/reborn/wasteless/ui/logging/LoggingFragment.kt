@@ -11,10 +11,20 @@ import androidx.navigation.fragment.findNavController
 import com.reborn.wasteless.databinding.FragmentLoggingBinding
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.doOnTextChanged
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.reborn.wasteless.R
+import com.reborn.wasteless.data.CalcType
+import com.reborn.wasteless.data.WasteType
 import java.util.Calendar
+import android.view.WindowManager
+import androidx.navigation.NavOptions
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 
 class LoggingFragment : Fragment() {
 
@@ -68,8 +78,24 @@ class LoggingFragment : Fragment() {
         }
 
         //UI features from top to bottom (according to XML)
+        // gonna number them so they appear neater
 
-        //1. Photo Picker
+        //1. Cancel button
+        binding.toolbarLoggingNo.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        //2. Toolbar save button
+        binding.toolbarLoggingYes.setOnClickListener {
+            vm.saveAll(requireContext())
+        }
+
+        //2a. Big green save button
+        binding.buttonSaveLog.setOnClickListener {
+            vm.saveAll(requireContext())
+        }
+
+        //3. Photo Picker
         binding.photoCaptureView.setOnClickListener {
             ImagePicker.with(this)
                 .crop()
@@ -78,16 +104,78 @@ class LoggingFragment : Fragment() {
                 .createIntent { intent -> imagePickerLauncher.launch(intent) }
         }
 
-        //2. Input for date/time, it should autofill onCreate
+        //4. Input for date/time, it should autofill onCreate
         binding.dateTimeInput.setOnClickListener {
             showDateTimePicker()
         }
 
-        //Cancel button
-        binding.toolbarLoggingNo.setOnClickListener {
-            findNavController().popBackStack()
+        //5. Title input
+        binding.titleInput.doOnTextChanged { text, _, _, _ ->
+            vm.title.value = text.toString()
         }
 
+        //6. WasteType selection → VM update + show overlay
+        binding.wasteTypeRadio.setOnCheckedChangeListener { _, checkedId ->
+            //a. Figure out which WasteType was tapped
+            val selectedType = when (checkedId) {
+                R.id.button_unavoidable -> WasteType.UNAVOIDABLE
+                R.id.button_avoidable   -> WasteType.AVOIDABLE
+                else                     -> WasteType.FOOD_RELATED
+            }
+            Log.i("LoggingFragment", "User clicked on button $selectedType")
+
+            //b. Push the observation into ViewModel (will refresh vm.selections)
+            vm.wasteType.value = selectedType
+
+            //c. Show overlay + load the RecyclerView
+            showOverlay()
+        }
+
+        //6a. RecyclerView setup for overlay
+        val adapter = WasteItemAdapter { item, qty ->
+            vm.updateQuantity(item, qty)
+        }
+
+        //6b. Setting the default layout to be linear/vertical
+        binding.recyclerItemWaste.apply {
+            this.adapter = adapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        //6c. Observe selected changes
+        vm.selections.observe(viewLifecycleOwner) { list ->
+            Log.d("LoggingFragment", "New selection by ${list.size}")
+            adapter.submitList(list)
+        }
+
+        //6d. Overlay done button
+        binding.overlayDone.setOnClickListener { hideOverlay() }
+
+        //7. Calculation‐type radios
+        binding.calculationTypeRadio.setOnCheckedChangeListener { _, id ->
+            vm.calcType.value =
+                if (id == R.id.button_grams) CalcType.GRAMS else CalcType.PORTION
+        }
+
+        //8. Live total‐weight display
+        vm.totalWeight.observe(viewLifecycleOwner) { total ->
+            binding.tvComputedWeight.text = getString(R.string.weight_format, total)
+        }
+
+        //9. React to save result
+        vm.saveStatus.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                Toast.makeText(requireContext(), "Saved!", Toast.LENGTH_SHORT).show()
+                val navOptions = NavOptions.Builder()
+                    .setLaunchSingleTop(true)
+                    .setPopUpTo(R.id.navigation_home, false)
+                    .build()
+                findNavController().navigate(LoggingFragmentDirections.actionLoggingToDiary(),navOptions)
+            }.onFailure { err ->
+                Log.e("LoggingFragment", "Save failed")
+                Toast.makeText(requireContext(), err.message, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -116,8 +204,6 @@ class LoggingFragment : Fragment() {
     /**
      * Function for showing the date picker -> followed by the time picker based on android's dialog lib
      * Call this function when DateTimeButton is clicked
-     *
-     * No params
      *
      */
     private fun showDateTimePicker() {
