@@ -37,7 +37,9 @@
             android:id="@+id/action_login_to_home"
             app:destination="@id/navigation_home"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/navigation_sign_in_selection"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_login_to_forgot_password"
             app:destination="@id/navigation_forgot_password"

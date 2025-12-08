@@ -17,6 +17,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import com.reborn.wasteless.databinding.ActivityMainBinding
 import com.reborn.wasteless.R
 import com.reborn.wasteless.repo.AuthRepository
+import androidx.activity.enableEdgeToEdge
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,7 +26,9 @@ class MainActivity : AppCompatActivity() {
     private val authRepository = AuthRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

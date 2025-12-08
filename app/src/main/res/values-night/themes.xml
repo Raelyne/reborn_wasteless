@@ -21,6 +21,7 @@
         <!-- Background color -->
         <item name="android:colorBackground">@color/grey_700</item>
         <item name="colorOnBackground">@color/white</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <!-- Customize your theme here. -->
 
     </style>

@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.reborn.wasteless.databinding.FragmentDiaryBinding
 import kotlin.getValue
+import com.reborn.wasteless.utils.applyTopWindowInsets
+import com.reborn.wasteless.utils.applyBottomWindowInsets
 
 class DiaryFragment : Fragment() {
 
@@ -24,6 +26,13 @@ class DiaryFragment : Fragment() {
         _binding = FragmentDiaryBinding.inflate(inflater, container, false)
         val root: View = binding.root
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //Apply padding to toolbar
+        binding.diaryToolbar.applyTopWindowInsets()
     }
 
     override fun onDestroyView() {

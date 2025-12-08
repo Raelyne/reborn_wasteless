@@ -7,6 +7,27 @@
     android:layout_height="match_parent"
     tools:context=".ui.account.AccountFragment">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/account_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/toolbar_account_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_account"
+            android:layout_gravity="start"
+            android:textColor="?attr/colorOnPrimary"
+            style="@style/Title20SBold_NoColor"
+            />
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
     <ImageView
         android:id="@+id/profileImage"
         android:layout_width="0dp"
@@ -19,7 +40,7 @@
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/account_toolbar"/>
 
     <Button
         android:id="@+id/button_edit_profile"
@@ -32,7 +53,7 @@
         android:background="@drawable/shape_rounded_rectangle"
         app:backgroundTint="?attr/colorPrimaryVariant"
         android:text="@string/edit_profile"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/account_toolbar"
         app:layout_constraintStart_toEndOf="@id/profileImage" />
 
     <com.google.android.material.button.MaterialButton
