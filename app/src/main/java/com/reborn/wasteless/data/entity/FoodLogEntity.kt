@@ -11,6 +11,7 @@ data class FoodLogEntity(
     val date: Long,
     val title: String,
     val wasteType: WasteType,
+    val wasteTypes: List<WasteType> = emptyList(),
     val calcType: CalcType,
     val totalWeight: Double = 0.0,     // calculated
     val remarks: String? = null,
@@ -22,4 +23,5 @@ data class LoggedWasteItem(
     val wasteItemId: String,
     val quantity: Double,
     val weight: Double,
+    val wasteType: WasteType
 )

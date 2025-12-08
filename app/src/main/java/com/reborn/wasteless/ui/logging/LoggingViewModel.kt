@@ -69,14 +69,13 @@ class LoggingViewModel(
     fun saveAll(context: Context) {
         val dt = dateTime.value ?: return
         val t = title.value.orEmpty()
-        val type = wasteType.value ?: return
+        val type = wasteType.value ?: WasteType.AVOIDABLE
         val rem = remarks.value
         val uri = imageUri.value
 
         val itemsLog = _selectionsByType.value.orEmpty()
-            .values
-            .flatten()
-            .filter { it.quantity > 0}
+            .flatMap { (wasteTypeKey, list) ->
+            list.filter { it.quantity > 0 }
             .map { sel ->
                 val wt = if (calcType.value == CalcType.GRAMS)
                     sel.quantity
@@ -86,18 +85,22 @@ class LoggingViewModel(
                 LoggedWasteItem(
                     wasteItemId = sel.item.name,
                     quantity = sel.quantity,
-                    weight = wt
+                    weight = wt,
+                    wasteType = wasteTypeKey
                 )
             }
+                }
 
         val totalWt = itemsLog.sumOf { it.weight }
+        val typesUsed = itemsLog.map { it.wasteType }.distinct()
 
         fun commit(imageUrl: String?) {
             val session = FoodLogEntity(
                 id = dt.toString(),
                 date = dt,
                 title = t,
-                wasteType = type,
+                wasteType = typesUsed.singleOrNull() ?: type,
+                wasteTypes = typesUsed,
                 calcType = calcType.value ?: CalcType.PORTION,
                 totalWeight = totalWt,
                 remarks = rem,

@@ -24,6 +24,7 @@ import java.util.Calendar
 import android.view.WindowManager
 import androidx.navigation.NavOptions
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 
 class LoggingFragment : Fragment() {
@@ -68,6 +69,13 @@ class LoggingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Apply system bar insets to avoid overlap with status/nav bars
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mainLogging) { v, insets ->
+            val system = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(system.left, system.top, system.right, system.bottom)
+            insets
+        }
 
         // This single block handles the initial "Autofill" AND any future updates.
         vm.dateTime.observe(viewLifecycleOwner) { timestamp ->
