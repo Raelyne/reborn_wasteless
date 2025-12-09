@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Toolbar for Back Button -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_profile_settings"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/back"
+        android:padding="12dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/icon_back_arrow"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar_profile_settings"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar_profile_settings"
+        app:layout_constraintEnd_toEndOf="@id/toolbar_profile_settings"
+        app:layout_constraintStart_toStartOf="@id/toolbar_profile_settings"
+        app:layout_constraintTop_toTopOf="@id/toolbar_profile_settings" />
+
+    <Button
+        android:id="@+id/button_change_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/change_username"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_profile_settings"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="32dp"/>
+
+    <Button
+        android:id="@+id/button_change_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/change_password"
+        app:layout_constraintTop_toBottomOf="@+id/button_change_username"
+        app:layout_constraintStart_toStartOf="@+id/button_change_username"
+        app:layout_constraintEnd_toEndOf="@+id/button_change_username"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/button_delete_account"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_account"
+        app:layout_constraintTop_toBottomOf="@+id/button_change_password"
+        app:layout_constraintStart_toStartOf="@+id/button_change_password"
+        app:layout_constraintEnd_toEndOf="@+id/button_change_password"
+        android:layout_marginTop="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

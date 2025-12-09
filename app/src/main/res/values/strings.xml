@@ -138,4 +138,19 @@
     <string name="cancel_imagepicker">Image picking cancelled.</string>
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+<!--    Profile edit strings -->
+    <string name="back">Back</string>
+    <string name="change_username">Change Username</string>
+
+    <string name="delete_account">Delete Account</string>
+
+    <string name="change_password">Change Username</string>
+    <string name="current_password">Change Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Re-type New Password</string>
+    <string name="save_password">Save Password</string>
+    <string name="settings">Settings</string>
+
+
 </resources>

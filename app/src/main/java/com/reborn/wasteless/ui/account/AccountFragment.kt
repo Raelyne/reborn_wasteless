@@ -34,6 +34,11 @@ class AccountFragment : Fragment() {
         //Apply padding to toolbar
         binding.accountToolbar.applyTopWindowInsets()
 
+        // Binding to edit profile
+        binding.buttonEditProfile.setOnClickListener {
+            findNavController().navigate(AccountFragmentDirections.actionAccountToSettings())
+        }
+
         //Observer for _loggedOut state
         vm.loggedOut.observe(viewLifecycleOwner) { isLoggedOut ->
             if (isLoggedOut) {

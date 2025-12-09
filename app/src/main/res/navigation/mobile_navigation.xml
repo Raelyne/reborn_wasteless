@@ -155,6 +155,13 @@
             app:exitAnim="@anim/slide_out_right"
             app:popUpTo="@id/mobile_navigation"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_account_to_settings"
+            app:destination="@id/navigation_settings"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <!-- Edit Profile -->
@@ -173,6 +180,79 @@
         <action
             android:id="@+id/action_logging_to_diary"
             app:destination="@id/navigation_diary"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+<!--    Profile Settings -->
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.reborn.wasteless.ui.account.Settings"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settings_to_account"
+            app:destination="@id/navigation_account"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_settings_to_changeUsername"
+            app:destination="@id/navigation_change_username"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_settings_to_changePassword"
+            app:destination="@id/navigation_change_password"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_settings_to_deleteAccount"
+            app:destination="@id/navigation_delete_account"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <!--    Profile Settings __ Change Username -->
+    <fragment
+        android:id="@+id/navigation_change_username"
+        android:name="com.example.wasteless.controller.ChangeUsername"
+        android:label="@string/change_username"
+        tools:layout="@layout/fragment_change_username">
+        <action
+            android:id="@+id/action_changeUsername_to_settings"
+            app:destination="@id/navigation_settings"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <!--    Profile Settings __ Change Password -->
+    <fragment
+        android:id="@+id/navigation_change_password"
+        android:name="com.example.wasteless.controller.ChangePassword"
+        android:label="@string/change_password"
+        tools:layout="@layout/fragment_change_password">
+        <action
+            android:id="@+id/action_changePassword_to_settings"
+            app:destination="@id/navigation_settings"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <!--    Profile Settings __ Delete Account -->
+    <fragment
+        android:id="@+id/navigation_delete_account"
+        android:name="com.reborn.wasteless.ui.account.DeleteAccount"
+        android:label="@string/delete_account"
+        tools:layout="@layout/fragment_delete_account">
+        <action
+            android:id="@+id/action_deleteAccount_to_settings"
+            app:destination="@id/navigation_settings"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"/>
     </fragment>
