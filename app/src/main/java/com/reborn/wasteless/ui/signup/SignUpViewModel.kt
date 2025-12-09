@@ -67,11 +67,12 @@ class SignUpViewModel(
      * @param email User's email address
      * @param password User's password (must be at least 6 characters)
      */
-    fun register(username: String, email: String, password: String) {
+    fun register(username: String, email: String, password: String, confirmPassword: String) {
         //Trims whitespace from the start and end, if any
         val trimmedUsername = username.trim()
         val trimmedEmail = email.trim()
         val trimmedPassword = password.trim()
+        val trimmedConfirmPassword = confirmPassword.trim()
 
         if (trimmedUsername.isBlank()) {
             _registerState.value = AuthState.Error(messageId = R.string.error_username_empty)
@@ -105,6 +106,11 @@ class SignUpViewModel(
 
         if (!isValidPassword(trimmedPassword)) {
             _registerState.value = AuthState.Error(messageId = R.string.error_password_complexity)
+            return
+        }
+
+        if (trimmedPassword != trimmedConfirmPassword) {
+            _registerState.value = AuthState.Error(messageId = R.string.error_password_mismatch)
             return
         }
 

@@ -23,6 +23,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_alt">#F8F8F8</color>
     <color name="black">#FF000000</color>
+    <color name="semi_transparent_black">#99000000</color>
     <color name="test">#FFC107</color>
 
     <!-- Background theme colors -->

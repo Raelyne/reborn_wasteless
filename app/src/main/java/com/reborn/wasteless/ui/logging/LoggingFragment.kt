@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.reborn.wasteless.databinding.FragmentLoggingBinding
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,6 +27,7 @@ import com.reborn.wasteless.utils.applyTopWindowInsets
 import com.reborn.wasteless.utils.applyBottomWindowInsets
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import androidx.core.content.edit
 
 class LoggingFragment : Fragment() {
 
@@ -216,8 +218,29 @@ class LoggingFragment : Fragment() {
         //9. React to save result
         vm.saveStatus.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                Toast.makeText(requireContext(),
-                    getString(R.string.success_saved), Toast.LENGTH_SHORT).show()
+                /**
+                 * Logic for connecting logging into coin gaining-
+                 * It just uses the shared preferences to get the number of pet coins stored, then adds to that amount
+                 */
+                try {
+                    val petPrefs = requireContext().getSharedPreferences("PetData", Context.MODE_PRIVATE)
+                    val currentCoins = petPrefs.getInt("KEY_PET_COINS_V2", 0)
+                    petPrefs.edit(commit = true) {
+                        // 奖励 20 金币
+                        putInt("KEY_PET_COINS_V2", currentCoins + 20)
+                    }
+
+                    // 弹出专门的提示
+                    Toast.makeText(requireContext(), "Saved! +20 Coins for Gilbert! 🦆💰", Toast.LENGTH_LONG).show()
+                } catch (e: Exception) {
+                    Log.e("Logging", "Error adding coins: ${e.message}")
+                    // 如果出错，至少提示保存成功
+                    Toast.makeText(requireContext(), "Saved!", Toast.LENGTH_SHORT).show()
+                }
+
+                /**
+                 * Navigating to diary while getting rid of backstack
+                 */
                 val navOptions = NavOptions.Builder()
                     .setLaunchSingleTop(true)
                     .setPopUpTo(R.id.navigation_home, false)

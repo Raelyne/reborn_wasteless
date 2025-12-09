@@ -106,17 +106,18 @@
     <string name="virtual_pet_subtitle">Check on your pet!</string>
     <string name="virtual_pet_button">Go to Pet</string>
 
-    <string name="pet_coin_desc">Coins icon</string>
-    <string name="pet_coins_placeholder">Coins: 120</string>
-    <string name="virtual_pet_status_playful">Playful mood</string>
-    <string name="virtual_pet_duck">Your pet duck</string>
-    <string name="pet_name_placeholder">Quacky</string>
-    <string name="pet_stat_health">Health</string>
-    <string name="pet_stat_cleanliness">Cleanliness</string>
-    <string name="pet_stat_mood">Mood</string>
-    <string name="pet_action_feed">Feed</string>
-    <string name="pet_action_clean">Clean</string>
-    <string name="pet_action_play">Play</string>
+    <string name="tamagotchi_coins_icon">Coins icon</string>
+    <string name="tamagotchi_coins_number">Coins: 120</string>
+    <string name="tamagotchi_duck">Your pet duck</string>
+    <string name="tamagotchi_name">Gilbert</string>
+    <string name="tamagotchi_sentence">Quack quack!</string>
+    <string name="tamagotchi_stat_health">Health</string>
+    <string name="tamagotchi_stat_cleanliness">Cleanliness</string>
+    <string name="tamagotchi_stat_mood">Mood</string>
+    <string name="tamagotchi_action_feed">Feed</string>
+    <string name="tamagotchi_action_clean">Clean</string>
+    <string name="tamagotchi_action_play">Play</string>
+    <string name="tamagotchi_action_gift">Gift</string>
 
     <!-- Forgot Password Fragment -->
     <string name="forgot_password_link_subtitle">Enter your email address to receive a link to reset your password.</string>
@@ -140,6 +141,7 @@
     <string name="error_password_empty">Password cannot be empty</string>
     <string name="error_password_length">Password must be between 8~64 characters</string>
     <string name="error_password_complexity">Password must contain at least 1 uppercase, lowercase, special character &amp; number</string>
+    <string name="error_password_mismatch">Mismatching passwords, please check again.</string>
     <string name="error_delete">Failed to delete log.</string>
     <!-- firebase checks -->
     <string name="error_email_already_exists">An account with this email already exists.</string>

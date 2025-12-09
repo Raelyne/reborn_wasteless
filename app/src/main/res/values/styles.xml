@@ -7,6 +7,19 @@
         <item name="cardBackgroundColor">@color/grey_500</item>
     </style>
 
+    <style name="Title15SBold_BlackOnly">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/poppins_semibold</item>
+    </style>
+
+    <style name="Title25Bold_BlackOnly">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+    </style>
+
+
     <style name="Title20SBold_White">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>

@@ -40,10 +40,11 @@ class SignUpFragment : Fragment() {
             val username = binding.textUsernameSignup.text.toString()
             val email = binding.textEmailSignup.text.toString()
             val password = binding.textPasswordSignup.text.toString()
+            val confirmPassword = binding.textPasswordSignupConfirm.text.toString()
 
             // Call ViewModel to handle registration logic
             // ViewModel will validate and create account with username
-            vm.register(username, email, password)
+            vm.register(username, email, password, confirmPassword)
         }
 
         //Just a pop back to SignInSelectionFragment
