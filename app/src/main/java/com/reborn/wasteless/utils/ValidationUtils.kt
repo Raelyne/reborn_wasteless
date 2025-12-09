@@ -33,6 +33,6 @@ fun isValidEmail(email: String): Boolean {
  * @return true if valid password format, else return false
  */
 fun isValidPassword(password: String): Boolean {
-    val passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])(?=\\S+$).{8,}$"
+    val passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+=.<>,?/-])(?=\\S+$).{8,}$"
     return password.matches(passwordRegex.toRegex())
 }
