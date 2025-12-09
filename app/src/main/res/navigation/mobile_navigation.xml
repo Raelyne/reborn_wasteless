@@ -155,7 +155,7 @@
             app:destination="@id/navigation_sign_in_selection"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/navigation_account"
+            app:popUpTo="@id/navigation_home"
             app:popUpToInclusive="true"/>
     </fragment>
 
@@ -176,8 +176,7 @@
             android:id="@+id/action_logging_to_diary"
             app:destination="@id/navigation_diary"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            />
+            app:exitAnim="@anim/slide_out_right"/>
     </fragment>
 
 
