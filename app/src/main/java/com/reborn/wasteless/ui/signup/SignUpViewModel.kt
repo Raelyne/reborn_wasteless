@@ -1,13 +1,18 @@
 package com.reborn.wasteless.ui.signup
 
-import android.util.Log
-import android.util.Log.e
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.reborn.wasteless.R
 import com.reborn.wasteless.data.model.AuthState
 import com.reborn.wasteless.repo.AuthRepository
 import com.reborn.wasteless.repo.UserRepository
+import com.reborn.wasteless.utils.isValidEmail
+import com.reborn.wasteless.utils.isValidPassword
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.FirebaseNetworkException
 
 /**
  * ViewModel for SignUpFragment.
@@ -69,38 +74,38 @@ class SignUpViewModel(
         val trimmedPassword = password.trim()
 
         if (trimmedUsername.isBlank()) {
-            _registerState.value = AuthState.Error("Username cannot be empty")
+            _registerState.value = AuthState.Error(messageId = R.string.error_username_empty)
             return
         }
 
         if (trimmedUsername.length < 3) {
-            _registerState.value = AuthState.Error("Username must be at least 3 characters")
+            _registerState.value = AuthState.Error(messageId = R.string.error_username_short)
             return
         }
 
         if (trimmedEmail.isBlank()) {
-            _registerState.value = AuthState.Error("Email cannot be empty")
+            _registerState.value = AuthState.Error(messageId = R.string.error_email_empty)
             return
         }
 
         if (!isValidEmail(trimmedEmail)) {
-            _registerState.value = AuthState.Error("Please enter a valid email address")
+            _registerState.value = AuthState.Error(messageId = R.string.error_email_invalid)
             return
         }
 
         if (trimmedPassword.isBlank()) {
-            _registerState.value = AuthState.Error("Password cannot be empty")
+            _registerState.value = AuthState.Error(messageId = R.string.error_password_empty)
             return
         }
 
         if (trimmedPassword.length < 8 || trimmedPassword.length > 32) {
-            _registerState.value = AuthState.Error("Password must be between 8~32 characters")
+            _registerState.value = AuthState.Error(messageId = R.string.error_password_length)
             return
         }
 
         if (!isValidPassword(trimmedPassword)) {
-            _registerState.value =
-                AuthState.Error("Password must contain at least 1 uppercase, lowercase, special character & number")
+            _registerState.value = AuthState.Error(messageId = R.string.error_password_complexity)
+            return
         }
 
         // Set loading state
@@ -110,7 +115,7 @@ class SignUpViewModel(
         userRepository.isUsernameTaken(trimmedUsername)
             .addOnSuccessListener { exists ->
                 if (exists) {
-                    _registerState.value = AuthState.Error("Username is already taken")
+                    _registerState.value = AuthState.Error(messageId = R.string.error_username_taken)
                     return@addOnSuccessListener // @addonSuccessListener is a labeled return to exit only the lambda/if function
                 }
 
@@ -118,46 +123,9 @@ class SignUpViewModel(
                 performSignUp(trimmedUsername, trimmedEmail, trimmedPassword)
             }
             .addOnFailureListener {
-                _registerState.value = AuthState.Error("Failed to authenticate username availability")
+                _registerState.value = AuthState.Error(messageId = R.string.error_username_availability)
             }
         }
-
-    /**
-     * Honestly- I had to search this up :skull: but this is
-     * a pattern to check if it's a valid email
-     * the [A-Za-z0-9+_.-]+ basically describes the list of allowed characters before @
-     * "A-Za-z" is any uppercase/lowercase letter (A-Z & a-z)
-     * "0-9" is digits
-     * "+_.-" is just these 4 symbols being allowed as well
-     * And the + outside means "one or more" of these characters
-     *
-     * @param email Email address to validate
-     * @return true if email format is valid, false otherwise
-     */
-    private fun isValidEmail(email: String): Boolean {
-        val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\$"
-        return email.matches(emailRegex.toRegex())
-    }
-
-    /**
-     * //    Regexp                Description
-     * ^                 # start-of-string
-     * (?=.*[0-9])       # a digit must occur at least once
-     * (?=.*[a-z])       # a lower case letter must occur at least once
-     * (?=.*[A-Z])       # an upper case letter must occur at least once
-     * (?=.*[@#$%^&+=])  # a special character must occur at least once you can replace with your special characters
-     * (?=\\S+$)          # no whitespace allowed in the entire string
-     * .{8,}             # anything, but length must be at least 8 characters though
-     * $                 # end-of-string
-     * ^ some stack overflow ans i saw lol
-     *
-     * @param password Password to validate
-     * @return true if valid password format, else return false
-     */
-    private fun isValidPassword(password: String): Boolean {
-        val passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])(?=\\S+$).{8,}$"
-        return password.matches(passwordRegex.toRegex())
-    }
 
     /**
      * Registers the user on Firebase Auth, and also store a record of the user based UserEntity params
@@ -176,17 +144,16 @@ class SignUpViewModel(
                 val uid = authResult.user?.uid
 
                 if (uid != null) {
+                    //Define the user entity to store document with
+                    val userEntity = com.reborn.wasteless.data.entity.UserEntity(
+                        uid = uid,
+                        email = userEmail,
+                        username = username, // Stored in Firestore
+                        createdAt = System.currentTimeMillis()
+                    )
                     //Set Firebase Auth displayName (quick access, no DB read needed)
                     authRepository.updateDisplayName(username)
                         .addOnSuccessListener {
-                            //Create user document in Firestore with username
-                            val userEntity = com.reborn.wasteless.data.entity.UserEntity(
-                                uid = uid,
-                                email = userEmail,
-                                username = username, // Stored in Firestore
-                                createdAt = System.currentTimeMillis()
-                            )
-
                             //Now, set the username
                             userRepository.createOrUpdateUser(userEntity)
                                 .addOnSuccessListener {
@@ -199,17 +166,8 @@ class SignUpViewModel(
                                 }
                         }
                         .addOnFailureListener { exception ->
-                            // Account created but displayName update failed
-                            // Still create Firestore document
-                            val userEntity = com.reborn.wasteless.data.entity.UserEntity(
-                                uid = uid,
-                                email = userEmail,
-                                username = username,
-                                createdAt = System.currentTimeMillis()
-                            )
-
                             //In the event Display Name upd fails straight away, store firebase document
-                            //bcos it won't create a docs if it fails
+                            //cos it won't create a docs if it fails
                             userRepository.createOrUpdateUser(userEntity)
                                 .addOnSuccessListener {
                                     _registerState.value = AuthState.Success(userEmail)
@@ -225,26 +183,24 @@ class SignUpViewModel(
             }
             .addOnFailureListener { exception ->
                 // Registration failed, one of these reasons
-                // Basically apparently, Firebase sends error messages by default when you fail a "createUserwithEmailandPassword()"
-                // So rn, we check if the error messages contain any of the "keywords" i.e. email or password
-                val errorMessage = when {
-                    exception.message?.contains("email") == true &&
-                            exception.message?.contains("already") == true ->
-                        "An account with this email already exists"
-
-                    exception.message?.contains("password") == true ->
-                        "Password is too weak. Use 8~32 characters"
-
-                    exception.message?.contains("network") == true ->
-                        "Network error. Please check your connection"
-
-                    exception.message?.contains("invalid") == true ->
-                        "Invalid email format. Please use a valid email."
-
-                    else ->
-                        exception.message ?: "Registration failed. Please try again"
+                // Basically apparently, Firebase sends error messages by default when you fail a "createUserWithEmailAndPassword()"
+                // So rn, we check if any of the exceptions return true
+                val errorResId = when (exception) {
+                    is FirebaseAuthUserCollisionException -> R.string.error_email_already_exists
+                    is FirebaseAuthWeakPasswordException -> R.string.error_password_weak
+                    is FirebaseAuthInvalidCredentialsException -> R.string.error_email_malformed
+                    is FirebaseNetworkException -> R.string.error_network
+                    else -> null
                 }
-                _registerState.value = AuthState.Error(errorMessage)
+
+                //Then, we update state based on what we found
+                if (errorResId != null) {
+                    // A specific known error was found, so use the ID
+                    _registerState.value = AuthState.Error(messageId = errorResId)
+                } else {
+                    // else it's probably a random error (server down, etc), show the raw message or a fallback
+                    _registerState.value = AuthState.Error(messageId = R.string.error_registration)
+                }
             }
     }
 

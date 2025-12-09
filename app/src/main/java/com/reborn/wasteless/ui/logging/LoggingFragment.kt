@@ -21,7 +21,6 @@ import com.reborn.wasteless.R
 import com.reborn.wasteless.data.CalcType
 import com.reborn.wasteless.data.WasteType
 import java.util.Calendar
-import android.view.WindowManager
 import androidx.navigation.NavOptions
 import com.reborn.wasteless.utils.applyTopWindowInsets
 import com.reborn.wasteless.utils.applyBottomWindowInsets
@@ -49,7 +48,8 @@ class LoggingFragment : Fragment() {
                     Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
                 }
                 else -> {
-                    Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.cancel_imagepicker), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -170,7 +170,8 @@ class LoggingFragment : Fragment() {
         //9. React to save result
         vm.saveStatus.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                Toast.makeText(requireContext(), "Saved!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.success_saved), Toast.LENGTH_SHORT).show()
                 val navOptions = NavOptions.Builder()
                     .setLaunchSingleTop(true)
                     .setPopUpTo(R.id.navigation_home, false)

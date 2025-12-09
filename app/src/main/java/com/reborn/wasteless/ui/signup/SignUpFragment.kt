@@ -57,21 +57,31 @@ class SignUpFragment : Fragment() {
             when (state) {
                 is AuthState.Loading -> {
                     // Show loading indicator (optional)
-                    // You can disable button or show progress bar here
+                    binding.buttonSignup.isEnabled = false
                 }
                 is AuthState.Success -> {
+                    binding.buttonSignup.isEnabled = true
                     // Registration success, so we juts move them to login page (am lazy to make sessions for automatic login)
-                    Toast.makeText(requireContext(), "Account created!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.success_account_created), Toast.LENGTH_SHORT).show()
                     findNavController().navigate(SignUpFragmentDirections.actionSignUpToLogin())
                     // Reset state after navigation
                     vm.resetState()
                 }
                 is AuthState.Error -> {
+                    binding.buttonSignup.isEnabled = true
                     // Registration failed, so we just show a error msg based on AuthState(errormessage) where
                     // errormessage was passed on from the SignUpVM
-                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                    val errorMsg = if (state.messageId != null) {
+                        getString(state.messageId)
+                    } else {
+                        state.message ?: "Registration failed"
+                    }
+
+                    Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
                 }
                 AuthState.Idle -> {
+                    binding.buttonSignup.isEnabled = true
                     // Initial idle state, so do nothing
                 }
             }

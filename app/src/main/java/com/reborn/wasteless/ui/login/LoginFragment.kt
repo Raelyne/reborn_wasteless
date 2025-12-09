@@ -10,6 +10,7 @@ import com.reborn.wasteless.databinding.FragmentLoginBinding
 import com.reborn.wasteless.data.model.AuthState
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.reborn.wasteless.R
 
 class LoginFragment : Fragment() {
 
@@ -58,10 +59,14 @@ class LoginFragment : Fragment() {
                 is AuthState.Loading -> {
                     // Meant to have logic for loading indicator but none atm
                     // You can disable button or show progress bar here
+                    binding.buttonLogin.isEnabled = false
                 }
                 is AuthState.Success -> {
                     // Login successful
-                    Toast.makeText(requireContext(), "Login Success", Toast.LENGTH_SHORT).show()
+                    binding.buttonLogin.isEnabled = false
+
+                    Toast.makeText(requireContext(),
+                        getString(R.string.success_login), Toast.LENGTH_SHORT).show()
                     // Navigate to home fragment
                     findNavController().navigate(LoginFragmentDirections.actionLoginToHome())
                     // Reset state after navigation
@@ -69,10 +74,19 @@ class LoginFragment : Fragment() {
                 }
                 is AuthState.Error -> {
                     // Login failed - show error message
-                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                    binding.buttonLogin.isEnabled = true
+
+                    val errorMsg = if (state.messageId != null) {
+                        getString(state.messageId)
+                    } else {
+                        state.message ?: "Login failed"
+                    }
+
+                    Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
                 }
                 AuthState.Idle -> {
                     // Initial state - do nothing
+                    binding.buttonLogin.isEnabled = true
                 }
             }
         }

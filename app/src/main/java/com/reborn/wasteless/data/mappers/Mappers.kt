@@ -16,6 +16,6 @@ fun FoodLogEntity.toSummary(): FoodLogSummary =
             wasteTypes.size == 1 -> wasteTypes.first().displayName
             else -> wasteType.displayName
         },
-        totalWeight = "%g".format(totalWeight),
+        totalWeight = "%.0f g".format(totalWeight),
         imageUrl = imageUrl
     )

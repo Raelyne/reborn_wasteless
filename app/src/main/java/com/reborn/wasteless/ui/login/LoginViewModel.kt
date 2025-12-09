@@ -3,8 +3,13 @@ package com.reborn.wasteless.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.reborn.wasteless.R
 import com.reborn.wasteless.data.model.AuthState
 import com.reborn.wasteless.repo.AuthRepository
+import com.reborn.wasteless.utils.isValidEmail
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.FirebaseNetworkException
 
 /**
  * ViewModel for LoginFragment.
@@ -58,12 +63,17 @@ class LoginViewModel(
     fun login(email: String, password: String) {
         // Validate input
         if (email.isBlank()) {
-            _loginState.value = AuthState.Error("Email cannot be empty")
+            _loginState.value = AuthState.Error(messageId = R.string.error_email_empty)
+            return
+        }
+
+        if (!isValidEmail(email)) {
+            _loginState.value = AuthState.Error(messageId = R.string.error_email_invalid)
             return
         }
 
         if (password.isBlank()) {
-            _loginState.value = AuthState.Error("Password cannot be empty")
+            _loginState.value = AuthState.Error(messageId = R.string.error_password_empty)
             return
         }
 
@@ -81,17 +91,22 @@ class LoginViewModel(
                 // Login failed - extract user-friendly error message
                 // Basically same thing as signup, Firebase sends error messages by default when a function fails
                 // So rn, we check if the error messages contain any of the "keywords" i.e. email or password
-                val errorMessage = when {
-                    exception.message?.contains("password") == true ->
-                        "Invalid email or password"
-                    exception.message?.contains("network") == true ->
-                        "Network error. Please check your connection"
-                    exception.message?.contains("user") == true ->
-                        "No account found with this email"
-                    else ->
-                        exception.message ?: "Login failed. Please try again"
+                val errorId = when (exception) {
+                    // Show same generic message for security
+                    is FirebaseAuthInvalidUserException,
+                    is FirebaseAuthInvalidCredentialsException -> R.string.error_login
+
+                    // Network errors are safe to show specifically
+                    is FirebaseNetworkException -> R.string.error_network
+
+                    // Unknown error
+                    else -> null
                 }
-                _loginState.value = AuthState.Error(errorMessage)
+                if (errorId != null) {
+                    _loginState.value = AuthState.Error(messageId = errorId)
+                } else {
+                    _loginState.value = AuthState.Error(messageId = R.string.error_login)
+                }
             }
     }
 

@@ -67,7 +67,15 @@
         android:id="@+id/navigation_forgot_password"
         android:name="com.reborn.wasteless.ui.login.ForgotPasswordFragment"
         android:label="@string/title_forgot_password"
-        tools:layout="@layout/fragment_forgot_password"/>
+        tools:layout="@layout/fragment_forgot_password">
+        <action
+            android:id="@+id/action_forgot_password_to_login"
+            app:destination="@id/navigation_login"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
 
     <!-- Home -->
     <fragment
@@ -76,25 +84,12 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_home_to_diary"
-            app:destination="@id/navigation_diary"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
-        <action
-            android:id="@+id/action_home_to_tamagotchi"
-            app:destination="@id/navigation_tamagotchi"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
-        <action
-            android:id="@+id/action_home_to_account"
-            app:destination="@id/navigation_account"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
-        <action
             android:id="@+id/action_home_to_logging"
             app:destination="@id/navigation_logging"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <!-- Diary -->
@@ -107,7 +102,9 @@
             android:id="@+id/action_diary_to_logging"
             app:destination="@id/navigation_logging"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <!-- Tamagotchi -->
@@ -129,6 +126,13 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
     </fragment>
+
+    <!-- Edit Profile -->
+    <fragment
+        android:id="@+id/navigation_edit_profile"
+        android:name="com.reborn.wasteless.ui.account.EditProfileFragment"
+        android:label="@string/title_edit_profile"
+        tools:layout="@layout/fragment_edit_profile"/>
 
     <!-- Logging -->
     <fragment

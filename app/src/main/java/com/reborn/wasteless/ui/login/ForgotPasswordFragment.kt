@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.reborn.wasteless.R
+import com.reborn.wasteless.data.model.AuthState
 import com.reborn.wasteless.databinding.FragmentForgotPasswordBinding
+import com.reborn.wasteless.ui.signup.SignUpFragmentDirections
 
 class ForgotPasswordFragment : Fragment() {
 
@@ -37,6 +40,46 @@ class ForgotPasswordFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        //rn havent implemented forgot password
+        binding.buttonSubmit.setOnClickListener {
+            val email = binding.textEmail.text.toString()
+
+            vm.resetPassword(email)
+        }
+
+        vm.resetPasswordState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is AuthState.Loading -> {
+                    // Show loading indicator (optional)
+                    binding.buttonSubmit.isEnabled = false
+                }
+                is AuthState.Success -> {
+                    binding.buttonSubmit.isEnabled = true
+                    Toast.makeText(requireContext(),
+                        getString(R.string.success_forgot_password), Toast.LENGTH_LONG).show()
+                    findNavController().navigate(ForgotPasswordFragmentDirections.actionForgotPasswordToLogin())
+                    // Reset state after navigation
+                    vm.resetState()
+                }
+                is AuthState.Error -> {
+                    binding.buttonSubmit.isEnabled = true
+                    // Submit failed, so we just show a error msg based on AuthState(errormessage)
+                    val errorMsg = if (state.messageId != null) {
+                        getString(state.messageId) // Load from strings.xml
+                    } else {
+                        state.message ?: "Unknown Error" // Fallback
+                    }
+
+                    Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
+                }
+                AuthState.Idle -> {
+                    binding.buttonSubmit.isEnabled = true
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

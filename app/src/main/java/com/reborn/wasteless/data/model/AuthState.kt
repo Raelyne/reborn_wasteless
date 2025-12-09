@@ -28,9 +28,9 @@ sealed class AuthState {
 
     /**
      * Authentication failed.
-     * @param message Error message to display to user
+     * @param message Error message to display to user, accept either string or int/id
      */
-    data class Error(val message: String) : AuthState()
+    data class Error(val message: String? = null, val messageId: Int? = null) : AuthState()
 
     /**
      * Initial state - no operation has been performed yet.

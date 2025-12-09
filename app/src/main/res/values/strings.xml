@@ -33,8 +33,7 @@
     <string name="title_login">Log In</string>
     <string name="title_sign_up">Sign Up</string>
     <string name="title_forgot_password">Forgot Password</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_leaderboard">Leaderboard</string>
+    <string name="title_edit_profile">Edit Profile</string>
 
     <!-- RecyclerView Content -->
     <string name="img_food_waste">Food waste</string>
@@ -100,8 +99,37 @@
     <string name="btn_log_out">Log out</string>
     <string name="hello_user">Hello, user!</string>
     <string name="profile_picture">Profile picture</string>
-    <string name="edit_profile">Edit Profile</string>
     <string name="display_name">Display Name</string>
 
+    <!-- Forgot Password Fragment -->
+    <string name="forgot_password_link_subtitle">Enter your email address to receive a link to reset your password.</string>
+    <!-- buttons -->
+    <string name="btn_submit">SUBMIT</string>
     <!-- New additions/not sorted yet -->
+
+    <!-- Toast text -->
+    <string name="success_forgot_password">If an account is associated with that email, a password reset link will be sent to it.</string>
+    <string name="success_login">Login Success</string>
+    <string name="success_account_created">Account created!</string>
+    <string name="success_saved">Saved!</string>
+
+    <string name="error_username_empty">Username cannot be empty</string>
+    <string name="error_username_short">Username must be at least 3 characters</string>
+    <string name="error_username_taken">Username is already taken</string>
+    <string name="error_username_availability">Failed to authenticate username availability</string>
+    <string name="error_email_empty">Email cannot be empty</string>
+    <string name="error_email_invalid">Please enter a valid email address</string>
+    <string name="error_password_empty">Password cannot be empty</string>
+    <string name="error_password_length">Password must be between 8~64 characters</string>
+    <string name="error_password_complexity">Password must contain at least 1 uppercase, lowercase, special character &amp; number</string>
+    <!-- firebase checks -->
+    <string name="error_email_already_exists">An account with this email already exists.</string>
+    <string name="error_password_weak">Password is too weak. Please use a stronger password.</string>
+    <string name="error_email_malformed">The email address is badly formatted.</string>
+    <string name="error_network">Network error. Please check your connection.</string>
+    <string name="error_registration">Registration failed. Please try again.</string>
+    <string name="error_login">Login failed. Please try again.</string>
+    <string name="error_generic_fail">An error occurred. Please try again.</string>
+
+    <string name="cancel_imagepicker">Image picking cancelled.</string>
 </resources>

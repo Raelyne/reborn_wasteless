@@ -1,6 +1,7 @@
 package com.reborn.wasteless.repo
 
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -79,7 +80,7 @@ class AuthRepository(
      */
     fun updateDisplayName(displayName: String): Task<Void> {
         val user = auth.currentUser
-            ?: return com.google.android.gms.tasks.Tasks.forException(
+            ?: return Tasks.forException(
                 IllegalStateException("No signed-in user")
             )
 
@@ -88,6 +89,14 @@ class AuthRepository(
             .build()
 
         return user.updateProfile(profileUpdates)
+    }
+
+    /**
+     * Sends a password reset email to the given address.
+     * @return Note: Task<Void>, not Task<AuthResult>
+     */
+    fun sendPasswordResetEmail(email: String): Task<Void> {
+        return auth.sendPasswordResetEmail(email)
     }
 }
 

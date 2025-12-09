@@ -53,7 +53,7 @@
         style="@style/Title20SBold_White"
         android:background="@drawable/shape_rounded_rectangle"
         app:backgroundTint="?attr/colorPrimaryVariant"
-        android:text="@string/edit_profile"
+        android:text="@string/title_edit_profile"
         app:layout_constraintTop_toBottomOf="@id/account_toolbar"
         app:layout_constraintStart_toEndOf="@id/profileImage" />
 
