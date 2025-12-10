@@ -17,6 +17,7 @@ class AccountFragment : Fragment() {
     private val binding get() = _binding!!
     private val vm: AccountViewModel by viewModels()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,6 +36,20 @@ class AccountFragment : Fragment() {
         vm.loggedOut.observe(viewLifecycleOwner) { isLoggedOut ->
             if (isLoggedOut) {
                 findNavController().navigate(AccountFragmentDirections.actionAccountToSignInSelection())
+            }
+        }
+
+        // Observer for the full user object to get the image
+        vm.currentUser.observe(viewLifecycleOwner) { user ->
+            // 1. Check if the user has a profile picture URL
+            if (user.profilePictureUrl.isNotEmpty()) {
+                // 2. Use Glide to load it
+                Glide.with(this)
+                    .load(user.profilePictureUrl)
+                    .placeholder(com.reborn.wasteless.R.drawable.no_photo_found) // Show this while loading
+                    .error(com.reborn.wasteless.R.drawable.no_photo_found)       // Show this if error
+                    .circleCrop() // Make the image round
+                    .into(binding.profileImage)
             }
         }
 

@@ -9,6 +9,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
+import android.net.Uri
 
 /**
  * Repository for user-related data operations.
@@ -228,5 +229,65 @@ class UserRepository {
             .continueWith { task ->
                 task.result?.exists() == true // true = username exists
             }
+    }
+
+    /**
+     * Uploads profile pic to Storage
+     */
+    fun uploadProfilePicture(imageUri: Uri): Task<Uri> {
+        val uid = auth.currentUser?.uid
+            ?: return Tasks.forException(IllegalStateException("No signed-in user"))
+
+        // Save to images/{uid}/profile_pic.jpg
+        val ref = storage.reference.child("images/$uid/profile_pic.jpg")
+
+        return ref.putFile(imageUri).continueWithTask { task ->
+            if (!task.isSuccessful) {
+                throw task.exception!!
+            }
+            // Return the download URL
+            ref.downloadUrl
+        }
+    }
+
+    // 2. Function to update profile (Username + Photo URL)
+    fun updateUserProfile(newUsername: String?, newPhotoUrl: String?): Task<Void> {
+        val uid = auth.currentUser?.uid
+            ?: return Tasks.forException(IllegalStateException("No signed-in user"))
+
+        return firestore.collection("users").document(uid).get().continueWithTask { task ->
+            val currentUser = task.result?.toObject(UserEntity::class.java)
+                ?: throw IllegalStateException("User not found")
+
+            val currentUsername = currentUser.username
+            val batch = firestore.batch()
+            val userRef = firestore.collection("users").document(uid)
+            val updates = HashMap<String, Any>()
+
+            // Handle Photo URL Update
+            if (newPhotoUrl != null) {
+                updates["profilePictureUrl"] = newPhotoUrl
+            }
+
+            // Handle Username Update
+            if (!newUsername.isNullOrEmpty() && newUsername != currentUsername) {
+                // 1. Reserve new username
+                val newUsernameRef = firestore.collection("usernames").document(newUsername)
+                batch.set(newUsernameRef, hashMapOf("uid" to uid))
+
+                // 2. Release old username
+                if (currentUsername.isNotEmpty()) {
+                    val oldUsernameRef = firestore.collection("usernames").document(currentUsername)
+                    batch.delete(oldUsernameRef)
+                }
+                updates["username"] = newUsername
+            }
+
+            if (updates.isNotEmpty()) {
+                batch.update(userRef, updates)
+            }
+
+            batch.commit()
+        }
     }
 }

@@ -39,12 +39,12 @@ class AccountViewModel (
         val displayName = user.username.ifEmpty {
             userRepository.extractUsernameFromEmail(user.email)
         }
-        "Hello, $displayName!"
+        displayName
     }
 
     val dateOfCreation: LiveData<String> = currentUser.map { user ->
         val date = Date(user.createdAt)
-        val format = SimpleDateFormat("MMM yyyy", Locale.getDefault()) // e.g., "Dec 2025"
+        val format = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()) // e.g., "24 Dec 2025"
         "Since: ${format.format(date)}"
     }
 }

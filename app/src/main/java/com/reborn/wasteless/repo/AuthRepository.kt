@@ -100,6 +100,12 @@ class AuthRepository(
         return auth.sendPasswordResetEmail(email)
     }
 
+    fun updatePassword(newPassword: String): Task<Void> {
+        val user = auth.currentUser
+            ?: return Tasks.forException(IllegalStateException("No signed-in user"))
+        return user.updatePassword(newPassword)
+    }
+
     /**
      * Attempts to re-authenticate the current user with their password.
      * This is used to satisfy the "recent login" security requirement before
