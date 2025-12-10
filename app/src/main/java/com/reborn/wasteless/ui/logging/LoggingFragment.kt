@@ -226,15 +226,15 @@ class LoggingFragment : Fragment() {
                     val petPrefs = requireContext().getSharedPreferences("PetData", Context.MODE_PRIVATE)
                     val currentCoins = petPrefs.getInt("KEY_PET_COINS_V2", 0)
                     petPrefs.edit(commit = true) {
-                        // 奖励 20 金币
+                        // Reward w/ 20 coins
                         putInt("KEY_PET_COINS_V2", currentCoins + 20)
                     }
 
-                    // 弹出专门的提示
+                    // Let the user know abt this
                     Toast.makeText(requireContext(), "Saved! +20 Coins for Gilbert! 🦆💰", Toast.LENGTH_LONG).show()
                 } catch (e: Exception) {
                     Log.e("Logging", "Error adding coins: ${e.message}")
-                    // 如果出错，至少提示保存成功
+                    // Even if there's an error adding coins, it'll just save the logs normally anyway
                     Toast.makeText(requireContext(), "Saved!", Toast.LENGTH_SHORT).show()
                 }
 

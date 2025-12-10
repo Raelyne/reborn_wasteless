@@ -25,6 +25,7 @@
     <color name="black">#FF000000</color>
     <color name="semi_transparent_black">#99000000</color>
     <color name="test">#FFC107</color>
+    <color name="error">#D32F2F</color>
 
     <!-- Background theme colors -->
     <color name="light_green">#8EDB94</color>

@@ -29,7 +29,7 @@
 
         <!-- Right button -->
         <ImageButton
-            android:id="@+id/toolbar_diary_options"
+            android:id="@+id/toolbar_diary_add"
             android:layout_width="48dp"
             android:layout_height="match_parent"
             android:src="@drawable/ic_add_24px"

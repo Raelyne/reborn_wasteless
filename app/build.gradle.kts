@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.lifecycle.viewmodel.ktx)
     annotationProcessor(libs.compiler)
 
     //noinspection UseTomlInstead

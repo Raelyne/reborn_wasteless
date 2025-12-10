@@ -1,4 +1,4 @@
-package com.reborn.wasteless.ui.account
+package com.reborn.wasteless.ui.settings
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
@@ -7,33 +7,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.reborn.wasteless.databinding.FragmentEditProfileBinding
+import com.reborn.wasteless.databinding.FragmentChangePasswordBinding
 import com.reborn.wasteless.utils.applyTopWindowInsets
 
-class EditProfileFragment : Fragment() {
+class ChangePasswordFragment : Fragment() {
 
-    private var _binding: FragmentEditProfileBinding? = null
+    private var _binding: FragmentChangePasswordBinding? = null
     private val binding get() = _binding!!
-    private val vm: EditProfileViewModel by viewModels()
+    private val vm: ChangePasswordViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentEditProfileBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        return root
+        _binding = FragmentChangePasswordBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         //Apply padding to toolbar
-        binding.editProfileToolbar.applyTopWindowInsets()
+        binding.changePasswordToolbar.applyTopWindowInsets()
 
         binding.toolbarBack.setOnClickListener {
             findNavController().popBackStack()
         }
     }
-
 }

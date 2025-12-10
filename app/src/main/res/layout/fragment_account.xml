@@ -35,7 +35,8 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/profile_picture"
         android:scaleType="centerCrop"
-        android:src="@drawable/take_a_photo"
+        android:src="@drawable/no_photo_found"
+        android:layout_marginTop="15dp"
         app:layout_constraintWidth_percent="0.4"
         app:layout_constraintHeight_percent="0.4"
         app:layout_constraintHorizontal_bias="0.1"
@@ -43,19 +44,67 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/account_toolbar"/>
 
-    <Button
+    <TextView
+        android:id="@+id/account_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edt_username"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="start"
+        android:textColor="?attr/colorSecondaryVariant"
+        style="@style/Title25SBold_White"
+        app:layout_constraintStart_toEndOf="@id/profileImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/account_toolbar"
+        />
+
+    <TextView
+        android:id="@+id/account_created_at"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/created_since"
+        android:layout_gravity="start"
+        android:layout_marginTop="5dp"
+        android:textColor="?attr/colorSecondaryVariant"
+        style="@style/Title20SBold_White"
+        app:layout_constraintStart_toEndOf="@id/profileImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/account_username"
+        />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button_edit_profile"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="30dp"
         android:layout_marginStart="30dp"
         android:includeFontPadding="false"
         style="@style/Title20SBold_White"
         android:background="@drawable/shape_rounded_rectangle"
         app:backgroundTint="?attr/colorPrimaryVariant"
         android:text="@string/title_edit_profile"
-        app:layout_constraintTop_toBottomOf="@id/account_toolbar"
+        app:layout_constraintTop_toTopOf="@id/profileImage"
+        app:layout_constraintBottom_toBottomOf="@id/profileImage"
+        app:layout_constraintVertical_bias="1"
         app:layout_constraintStart_toEndOf="@id/profileImage" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_settings"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:text="@string/title_settings"
+        style="@style/Title30SBold_NoColor"
+        android:textColor="?attr/colorOnSecondary"
+        android:layout_marginTop="5dp"
+        app:backgroundTint="@android:color/transparent"
+        app:icon="@drawable/ic_settings_24px"
+        app:iconSize="60dp"
+        app:iconTint="?attr/colorOnSecondary"
+        app:iconGravity="start"
+        app:layout_constraintTop_toBottomOf="@id/profileImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_logOut"
@@ -64,13 +113,13 @@
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:text="@string/btn_log_out"
         style="@style/Title30SBold_NoColor"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="@color/error"
         app:backgroundTint="@android:color/transparent"
         app:icon="@drawable/icon_duck_feet"
         app:iconSize="60dp"
-        app:iconTint="@android:color/holo_red_dark"
+        app:iconTint="@color/error"
         app:iconGravity="start"
-        app:layout_constraintTop_toBottomOf="@id/profileImage"
+        app:layout_constraintTop_toBottomOf="@id/button_settings"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

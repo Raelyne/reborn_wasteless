@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.account.EditProfileFragment">
+    tools:context=".ui.settings.DeleteAccountFragment">
 
     <!-- Toolbar for edit profile -->
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/edit_profile_toolbar"
+        android:id="@+id/delete_account_toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -30,56 +30,26 @@
             />
 
         <TextView
-            android:id="@+id/toolbar_edit_profile_title"
+            android:id="@+id/toolbar_delete_account_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_edit_profile"
+            android:text="@string/title_delete_account"
             android:textColor="?attr/colorOnPrimary"
             style="@style/Title20SBold_NoColor"
             android:layout_gravity="center_horizontal"/>
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <!-- change profile pic -->
-    <ImageView
-        android:id="@+id/profileImage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/profile_picture"
-        android:scaleType="centerCrop"
-        android:src="@drawable/take_a_photo"
-        android:layout_marginTop="15dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintWidth_percent="0.4"
-        app:layout_constraintHeight_percent="0.4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_profile_toolbar"/>
-
-    <TextView
-        android:id="@+id/profileImage_subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/change_profile_subtitle"
-        android:textColor="?attr/colorOnSurface"
-        style="@style/Title15SBold_BlackOnly"
-        android:textAlignment="center"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@id/profileImage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
     <!-- Username -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_layout_username_change"
+        android:id="@+id/text_layout_password_delete_account"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@null"
         android:paddingHorizontal="50dp"
         app:boxBackgroundMode="filled"
         app:boxBackgroundColor="?attr/colorSurfaceVariant"
-        app:layout_constraintTop_toBottomOf="@id/profileImage_subtitle"
+        app:layout_constraintTop_toBottomOf="@id/delete_account_toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="32dp">
@@ -88,10 +58,44 @@
             android:id="@+id/text_username_change"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/edt_username"
+            android:hint="@string/edt_current_password"
+            style="@style/TitleRegular_White"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Username -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_layout_confirm_delete_account"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:paddingHorizontal="50dp"
+        app:boxBackgroundMode="filled"
+        app:boxBackgroundColor="?attr/colorSurfaceVariant"
+        app:layout_constraintTop_toBottomOf="@id/text_layout_password_delete_account"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_confirm_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             style="@style/TitleRegular_White"
             android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/text_confirm_delete_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/CONFIRM_DELETE"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="30dp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/text_layout_confirm_delete_account"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_update"
@@ -103,9 +107,10 @@
         android:includeFontPadding="false"
         style="@style/Title20SBold_White"
         android:background="@drawable/shape_rounded_rectangle"
-        app:backgroundTint="?attr/colorPrimaryVariant"
-        android:text="@string/btn_update_profile"
+        app:backgroundTint="@color/error"
+        android:text="@string/btn_confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_layout_username_change" />
+        app:layout_constraintTop_toBottomOf="@id/text_confirm_delete_subtitle" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

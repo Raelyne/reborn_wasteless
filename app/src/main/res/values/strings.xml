@@ -35,6 +35,9 @@
     <string name="title_forgot_password">Forgot Password</string>
     <string name="title_edit_profile">Edit Profile</string>
     <string name="title_loading">Loading</string>
+    <string name="title_change_username">Change Username</string>
+    <string name="title_change_password">Change Password</string>
+    <string name="title_delete_account">Delete Account</string>
 
     <!-- RecyclerView Content -->
     <string name="img_food_waste">Food waste</string>
@@ -102,6 +105,18 @@
     <string name="profile_picture">Profile picture</string>
     <string name="display_name">Display Name</string>
 
+    <!-- Settings Fragment -->
+    <!--    Profile edit strings -->
+    <string name="back">Back</string>
+    <string name="edt_change_password">Change Password</string>
+    <string name="edt_new_password">New Password</string>
+    <string name="edt_confirm_new_password">Re-type New Password</string>
+    <string name="edt_current_password">Current Password</string>
+    <string name="btn_save_password">Save Password</string>
+    <string name="title_settings">Settings</string>
+    <string name="btn_update_profile">Update</string>
+    <string name="CONFIRM_DELETE">Type \'CONFIRM DELETE\' to confirm deletion of your account.</string>
+
     <!-- Tamagotchi Fragment -->
     <string name="virtual_pet_subtitle">Check on your pet!</string>
     <string name="virtual_pet_button">Go to Pet</string>
@@ -131,6 +146,7 @@
     <string name="success_account_created">Account created!</string>
     <string name="success_saved">Saved!</string>
     <string name="success_delete">Log deleted!</string>
+    <string name="success_delete_account">Account and all related data deleted.</string>
 
     <string name="error_username_empty">Username cannot be empty</string>
     <string name="error_username_short">Username must be at least 3 characters</string>
@@ -154,6 +170,6 @@
 
 
     <string name="cancel_imagepicker">Image picking cancelled.</string>
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="created_since">Since 12/12/1222</string>
+    <string name="change_profile_subtitle">Click on the image to update profile picture!</string>
 </resources>

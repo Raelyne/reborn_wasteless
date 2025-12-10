@@ -9,16 +9,13 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.reborn.wasteless.databinding.FragmentAccountBinding
 import com.reborn.wasteless.utils.applyTopWindowInsets
+import com.bumptech.glide.Glide
 
 class AccountFragment : Fragment() {
 
     private var _binding: FragmentAccountBinding? = null
     private val binding get() = _binding!!
     private val vm: AccountViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,9 +38,26 @@ class AccountFragment : Fragment() {
             }
         }
 
+        //Observer for username
+        vm.usernameTag.observe(viewLifecycleOwner) { username ->
+            binding.accountUsername.text = username
+        }
+
+        //Observer for account date of creation
+        vm.dateOfCreation.observe(viewLifecycleOwner) { date ->
+            binding.accountCreatedAt.text = date
+        }
+
         //Listener for log out button
         binding.buttonLogOut.setOnClickListener {
             vm.logOut()
+        }
+
+        binding.buttonEditProfile.setOnClickListener {
+            findNavController().navigate(AccountFragmentDirections.actionAccountToEditProfile())
+        }
+        binding.buttonSettings.setOnClickListener {
+            findNavController().navigate(AccountFragmentDirections.actionAccountToSettings())
         }
     }
 

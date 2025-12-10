@@ -140,6 +140,25 @@
             app:exitAnim="@anim/slide_out_right"/>
     </fragment>
 
+    <!-- Logging -->
+    <fragment
+        android:id="@+id/navigation_logging"
+        android:name="com.reborn.wasteless.ui.logging.LoggingFragment"
+        android:label="@string/title_logging"
+        tools:layout="@layout/fragment_logging">
+        <argument
+            android:name="logId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+        <action
+            android:id="@+id/action_logging_to_diary"
+            app:destination="@id/navigation_diary"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            />
+    </fragment>
+
     <!-- Tamagotchi -->
     <fragment
         android:id="@+id/navigation_tamagotchi"
@@ -160,6 +179,20 @@
             app:exitAnim="@anim/slide_out_right"
             app:popUpTo="@id/mobile_navigation"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_account_to_settings"
+            app:destination="@id/navigation_settings"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_account_to_edit_profile"
+            app:destination="@id/navigation_edit_profile"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <!-- Edit Profile -->
@@ -167,24 +200,57 @@
         android:id="@+id/navigation_edit_profile"
         android:name="com.reborn.wasteless.ui.account.EditProfileFragment"
         android:label="@string/title_edit_profile"
-        tools:layout="@layout/fragment_edit_profile"/>
+        tools:layout="@layout/fragment_edit_profile">
 
-    <!-- Logging -->
+    </fragment>
+
+    <!-- Settings -->
     <fragment
-        android:id="@+id/navigation_logging"
-        android:name="com.reborn.wasteless.ui.logging.LoggingFragment"
-        android:label="@string/title_logging"
-        tools:layout="@layout/fragment_logging">
-        <argument
-            android:name="logId"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null"/>
+        android:id="@+id/navigation_settings"
+        android:name="com.reborn.wasteless.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings">
         <action
-            android:id="@+id/action_logging_to_diary"
-            app:destination="@id/navigation_diary"
+            android:id="@+id/action_settings_to_change_password"
+            app:destination="@id/navigation_change_password"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_settings_to_delete_account"
+            app:destination="@id/navigation_delete_account"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+    </fragment>
+
+    <!-- Change Password -->
+    <fragment
+        android:id="@+id/navigation_change_password"
+        android:name="com.reborn.wasteless.ui.settings.ChangePasswordFragment"
+        android:label="@string/title_change_password"
+        tools:layout="@layout/fragment_change_password">
+
+    </fragment>
+
+    <!-- Delete Account -->
+    <fragment
+        android:id="@+id/navigation_delete_account"
+        android:name="com.reborn.wasteless.ui.settings.DeleteAccountFragment"
+        android:label="@string/title_delete_account"
+        tools:layout="@layout/fragment_delete_account">
+        <action
+            android:id="@+id/action_delete_account_to_sign_in_selection"
+            app:destination="@id/navigation_sign_in_selection"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"/>
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 
 

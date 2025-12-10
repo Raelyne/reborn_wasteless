@@ -8,6 +8,7 @@ import com.reborn.wasteless.data.entity.UserEntity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.storage
 
 /**
  * Repository for user-related data operations.
@@ -17,6 +18,7 @@ class UserRepository {
 
     private val auth = FirebaseAuth.getInstance()
     private val firestore = Firebase.firestore
+    private val storage = Firebase.storage
 
     /**
      * Gets the current user's profile from Firestore.
@@ -117,6 +119,102 @@ class UserRepository {
 
         // 4. Commit both operations atomically
         return batch.commit()
+    }
+
+
+    /**
+     * Deletes the user's data first, then attempts to delete the Authentication account.
+     * The Auth account deletion might fail if re-authentication is required.
+     * WARNING: This action is irreversible.
+     *
+     * @return Task<Void> that completes the deletion process.
+     */
+    fun deleteAccount(): Task<Void> {
+        val user = auth.currentUser
+            ?: return Tasks.forException(IllegalStateException("No signed-in user"))
+
+        // Chain the tasks: Delete Data -> Then Delete Auth Account ONLY if Data deletion succeeded.
+        return deleteUserData().continueWithTask { task ->
+            if (task.isSuccessful) {
+                // Data deletion succeeded, proceed to delete the Auth user
+                user.delete()
+            } else {
+                // Data deletion failed, so
+                // the Auth user will not be deleted.
+                Tasks.forException(task.exception!!)
+            }
+        }
+    }
+
+    /**
+     * Deletes all user data from Firestore and Storage.
+     * 1. Storage: images/{uid}/logs (all images)
+     * 2. Firestore: users/{uid}/logs (all log sub-documents)
+     * 3. Firestore: users/{uid} (user profile document)
+     * 4. Firestore: usernames/{username} (username reservation document)
+     */
+    fun deleteUserData(): Task<Void> {
+        val uid = auth.currentUser?.uid
+            ?: return Tasks.forException(IllegalStateException("No signed-in user"))
+
+        return firestore.collection("users").document(uid).get()
+            .continueWithTask { task ->
+                // Handle case where user profile might already be gone from a previous failed attempt
+                val userEntity = task.result?.toObject(UserEntity::class.java)
+                val username = userEntity?.username
+
+                // Storage
+                val storageRef = storage.reference.child("images/$uid/logs")
+                val deleteStorageTask = storageRef.listAll().continueWithTask { listResult ->
+                    val deleteFileTasks = listResult.result.items.map { it.delete() }
+                    Tasks.whenAll(deleteFileTasks)
+                }
+
+                // Firestore (w/ batch write)
+                val deleteFirestoreTask = firestore.collection("users").document(uid)
+                    .collection("logs").get()
+                    .continueWithTask { querySnapshot ->
+                        val batches = mutableListOf<Task<Void>>()
+                        val allDocs = querySnapshot.result.documents
+
+                        // Chunk documents into groups of 450 (leaving buffer for profile/username ops)
+                        val chunks = allDocs.chunked(450)
+
+                        // If no logs, we still need one batch for profile/username
+                        if (chunks.isEmpty()) {
+                            val batch = firestore.batch()
+                            batch.delete(firestore.collection("users").document(uid))
+                            if (!username.isNullOrEmpty()) {
+                                batch.delete(firestore.collection("usernames").document(username))
+                            }
+                            return@continueWithTask batch.commit()
+                        }
+
+                        // Process chunks
+                        chunks.forEachIndexed { index, chunk ->
+                            val batch = firestore.batch()
+
+                            // Add logs to this batch
+                            chunk.forEach { doc -> batch.delete(doc.reference) }
+
+                            // On the very last batch, delete the User Profile and Username
+                            if (index == chunks.lastIndex) {
+                                batch.delete(firestore.collection("users").document(uid))
+                                if (!username.isNullOrEmpty()) {
+                                    batch.delete(firestore.collection("usernames").document(username))
+                                }
+                            }
+
+                            // Add the commit task to our list
+                            batches.add(batch.commit())
+                        }
+
+                        // Wait for ALL batches to finish
+                        Tasks.whenAll(batches)
+                    }
+
+                Tasks.whenAll(deleteStorageTask, deleteFirestoreTask)
+            }
     }
 
     /**

@@ -38,7 +38,7 @@ class DiaryFragment : Fragment() {
         binding.diaryToolbar.applyTopWindowInsets()
 
         //Nav to logging or add entry
-        binding.toolbarDiaryOptions.setOnClickListener {
+        binding.toolbarDiaryAdd.setOnClickListener {
             findNavController().navigate(DiaryFragmentDirections.actionDiaryToLogging())
         }
 

@@ -5,6 +5,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.auth.EmailAuthProvider
 
 /**
  * Repository that wraps FirebaseAuth operations.
@@ -97,6 +98,32 @@ class AuthRepository(
      */
     fun sendPasswordResetEmail(email: String): Task<Void> {
         return auth.sendPasswordResetEmail(email)
+    }
+
+    /**
+     * Attempts to re-authenticate the current user with their password.
+     * This is used to satisfy the "recent login" security requirement before
+     * sensitive operations like account deletion.
+     *
+     * @param password The user's current password.
+     * @return Task<Void> that indicates success or failure of re-authentication.
+     */
+    fun reauthenticate(password: String): Task<Void> {
+        val user = auth.currentUser
+            ?: return Tasks.forException(
+                IllegalStateException("No signed-in user")
+            )
+
+        // We assume the user is signed in with email/password
+        val email = user.email ?: return Tasks.forException(
+            IllegalStateException("User email not found")
+        )
+
+        // Create the credential object
+        val credential = EmailAuthProvider.getCredential(email, password)
+
+        // Re-authenticate the user
+        return user.reauthenticate(credential)
     }
 }
 
